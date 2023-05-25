@@ -1,0 +1,15 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 2%;
+    width: 100%;
+    background-color: #ffffffdb;
+}
+
+h1 {
+    font-size: 3em;
+    font-weight: 300;
+    line-height: 1.2em;
+    margin: 0 0 0.5em;
+    color: red;
+}
