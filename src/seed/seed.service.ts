@@ -8,6 +8,7 @@ import { PRODUCTS_SEED } from './data/products.seed';
 import { CategoryToInsert } from './interfaces/category.interface';
 import { ProductToInsert } from './interfaces/product.interface';
 import { AxiosAdapter } from '../common/adapters/axios.adapter';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class SeedService {
@@ -19,7 +20,12 @@ export class SeedService {
     private readonly productModel: Model<Product>,
 
     private readonly http: AxiosAdapter,
-  ) {}
+    private readonly configService: ConfigService,
+  ) {
+    //console.log(this.http);
+    // console.log(this.configService.getOrThrow('mongodb'));
+    console.log(this.configService.get<number>('port'));
+  }
 
   async populateDB() {
     this.categoryModel.deleteMany({});
