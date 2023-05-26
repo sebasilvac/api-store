@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { UsersModule } from './users/users.module';
 import { ProductsModule } from './products/products.module';
+import { SeedModule } from './seed/seed.module';
 import { CategoriesModule } from './categories/categories.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
@@ -15,6 +16,7 @@ import { CommonModule } from './common/common.module';
     MongooseModule.forRoot('mongodb://localhost:27017/store'),
     UsersModule,
     ProductsModule,
+    SeedModule,
     CategoriesModule,
     CommonModule,
   ],
