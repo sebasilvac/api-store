@@ -7,6 +7,7 @@ import { CATEGORIES_SEED } from './data/categories.seed';
 import { PRODUCTS_SEED } from './data/products.seed';
 import { CategoryToInsert } from './interfaces/category.interface';
 import { ProductToInsert } from './interfaces/product.interface';
+import { AxiosAdapter } from '../common/adapters/axios.adapter';
 
 @Injectable()
 export class SeedService {
@@ -16,6 +17,8 @@ export class SeedService {
 
     @InjectModel(Product.name)
     private readonly productModel: Model<Product>,
+
+    private readonly http: AxiosAdapter,
   ) {}
 
   async populateDB() {
