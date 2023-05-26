@@ -4,11 +4,13 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
+import { Model, isValidObjectId } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
+
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
-import { Model, isValidObjectId } from 'mongoose';
-import { InjectModel } from '@nestjs/mongoose';
+import { PaginationDto } from '../common/dto/pagination.dto';
 
 @Injectable()
 export class ProductsService {
@@ -31,8 +33,16 @@ export class ProductsService {
     }
   }
 
-  async findAll() {
-    return await this.productModel.find();
+  async findAll(paginationDto: PaginationDto) {
+    const { limit, offset } = paginationDto;
+    return await this.productModel
+      .find()
+      .skip(offset)
+      .limit(limit)
+      .sort({
+        name: 1,
+      })
+      .select('-__v');
   }
 
   async findOne(find: string) {
