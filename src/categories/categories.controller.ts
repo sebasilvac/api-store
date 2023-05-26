@@ -6,11 +6,13 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
-import { ParseMongoIdPipe } from 'src/common/pipes/parse-mongo-id.pipe';
+import { ParseMongoIdPipe } from '../common/pipes/parse-mongo-id.pipe';
+import { PaginationDto } from '../common/dto/pagination.dto';
 
 @Controller('categories')
 export class CategoriesController {
@@ -22,8 +24,8 @@ export class CategoriesController {
   }
 
   @Get()
-  findAll() {
-    return this.categoriesService.findAll();
+  findAll(@Query() paginationDto: PaginationDto) {
+    return this.categoriesService.findAll(paginationDto);
   }
 
   @Get(':find')

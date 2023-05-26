@@ -4,11 +4,13 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
+import { Model, isValidObjectId } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
+
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { Category } from './entities/category.entity';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model, isValidObjectId } from 'mongoose';
+import { PaginationDto } from '../common/dto/pagination.dto';
 
 @Injectable()
 export class CategoriesService {
@@ -30,8 +32,17 @@ export class CategoriesService {
     }
   }
 
-  async findAll() {
-    return await this.categoryModel.find().exec();
+  async findAll(paginationDto: PaginationDto) {
+    const { limit, offset } = paginationDto;
+
+    return await this.categoryModel
+      .find()
+      .skip(offset)
+      .limit(limit)
+      .sort({
+        name: 1,
+      })
+      .select('-__v');
   }
 
   async findOne(find: string) {
