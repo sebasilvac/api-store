@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  marketapp:
+    depends_on:
+      - db
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    image: market-docker-image
+    container_name: marketapp
+    restart: always # reiniciar el contenedor si se detiene
+    ports:
+      - "${PORT}:${PORT}"
+    # working_dir: /var/www/market
+    environment:
+      MONGODB: ${MONGODB}
+      PORT: ${PORT}
+    # volumes:
+    #   - ./:/var/www/market
+
+  db:
+    image: mongo:5
+    container_name: market-mongo
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGODB_DATABASE: market-db
+    volumes:
+      - ./mongo:/data/db
